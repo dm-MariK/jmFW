@@ -387,15 +387,15 @@ class jmFU:
   def __str__(self):
     ''' String representation of an object of this class. '''
     s = '*** ' + '-'*50 + ' ***\n'
-    s += ' * Input file #1 : ' + self.INPUT1 + '\n'
-    s += 'Offset (raw/fixed): ' + str(self.INPUT1_oset) + ' bytes / ' + str(fixOffset(self.INPUT1_oset)) + ' bytes\n'
+    s += ' * Input file #1 : ' + str(self.INPUT1) + '\n'
+    s += 'Offset (raw/fixed): ' + str(self.INPUT1_oset) + ' bytes / ' + str(fixOffset(self.INPUT1, self.INPUT1_oset)) + ' bytes\n'
     if self.INPUT1_bwNot:
       s += 'Apply bitwise NOT\n'
     s += '-'*25 + '\n'
     # -------------------------
     if self.INPUT2:
-      s += ' * Input file #2 : ' + self.INPUT2 + '\n'
-      s += 'Offset (raw/fixed): ' + str(self.INPUT2_oset) + ' bytes / ' + str(fixOffset(self.INPUT2_oset)) + ' bytes\n'
+      s += ' * Input file #2 : ' + str(self.INPUT2) + '\n'
+      s += 'Offset (raw/fixed): ' + str(self.INPUT2_oset) + ' bytes / ' + str(fixOffset(self.INPUT2, self.INPUT2_oset)) + ' bytes\n'
       if self.INPUT2_bwNot:
         s += 'Apply bitwise NOT\n'
       s += '-'*25 + '\n'
@@ -405,11 +405,11 @@ class jmFU:
     s += 'Chunk Size for file input/output: ' + str(self.ChunkSize) + '\n'
     s += '-'*25 + '\n'
     # -------------------------
-    s += ' * Output file : ' + self.OUTPUT + '\n'
+    s += ' * Output file : ' + str(self.OUTPUT) + '\n'
     if self.ModifyMethod in ['rewriteBytes', 'insertBytes']:
-      s += 'Offset (raw/fixed): ' + str(self.OUTPUT_oset) + ' bytes / ' + str(fixOffset(self.OUTPUT_oset)) + ' bytes\n'
-    s += 'Path to Temporary Output: ' + self.TmpOutPath + '\n'
-    s += 'Path to Backup: ' + self.BackupPath + '\n'
+      s += 'Offset (raw/fixed): ' + str(self.OUTPUT_oset) + ' bytes / ' + str(fixOffset(self.OUTPUT, self.OUTPUT_oset)) + ' bytes\n'
+    s += 'Path to Temporary Output: ' + str(self.TmpOutPath) + '\n'
+    s += 'Path to Backup: ' + str(self.BackupPath) + '\n'
     s += '*** ' + '-'*50 + ' ***\n'
     return s
   
@@ -568,7 +568,7 @@ def main():
   dispArgs(argD) # <------------------------------------------------------------ For debug only !!!
   
   # Create jmFU-object, pocess the files ...
-  fw_obj = jmFU(argD)
+  fw_obj = jmFU(**argD)
   logMsg, execFlag = fw_obj.run() # <----------------------------------------------------------------------------- !!!
   if execFlag:
     sys.stdout.write(logMsg)
